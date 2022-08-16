@@ -11,7 +11,8 @@
       "pretty": "prettier --config .prettierrc 'src/**/*.ts' --write",
       "prepare": "husky install",
       "test": "echo \"Error: no test specified\" && exit 1",
-      "typeorm": "typeorm-ts-node-commonjs"
+      "typeorm": "typeorm-ts-node-commonjs",
+      "migration-run": "pnpm run typeorm migration:run -d ./src/data-source.ts"
    },
    "keywords": [],
    "author": "",
