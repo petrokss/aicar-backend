@@ -1,7 +1,7 @@
-import Koa from "koa";
-import bodyParser from "koa-bodyparser";
-import cors from "@koa/cors";
-import logger from "koa-logger";
+import Koa from 'koa';
+import bodyParser from 'koa-bodyparser';
+import cors from '@koa/cors';
+import logger from 'koa-logger';
 
 const app = new Koa();
 
@@ -13,7 +13,7 @@ const server = app
   .listen(PORT, async () => {
     console.log(`🚀 Server listening on port: ${PORT} 🚀`);
   })
-  .on("error", err => {
+  .on('error', (err) => {
     console.error(err);
   });
 
