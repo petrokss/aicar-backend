@@ -1,9 +1,13 @@
-.env
-/node_modules/*
-.idea/*
-/backup/*
-*.log
+# IDE
+.idea/
+.vscode/
+
+# Folders
+node_modules/
 build/
 tmp/
 temp/
-coverage/*
+
+# Other files
+.env
+*.log
