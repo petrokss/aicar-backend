@@ -7,12 +7,6 @@ import {
   Check
 } from 'typeorm';
 
-export enum Role {
-  USER = 'user',
-  ADMIN = 'admin',
-  MANAGER = 'manager'
-}
-
 @Entity()
 @Check(`"role" in ('user', 'admin', 'manager')`)
 export class User {
@@ -28,8 +22,8 @@ export class User {
   @Column({ length: 100, nullable: false })
   name: string;
 
-  @Column({ type: 'enum', enum: Role, default: Role.USER, nullable: false })
-  role: Role;
+  @Column({ nullable: false, default: 'user' })
+  role: string;
 
   @Column()
   description: string;
