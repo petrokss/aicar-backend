@@ -3,18 +3,16 @@ import {
   PrimaryGeneratedColumn,
   Column,
   CreateDateColumn,
-  UpdateDateColumn,
-  Check
+  UpdateDateColumn
 } from 'typeorm';
 
 export enum Role {
-  USER = 'user',
-  ADMIN = 'admin',
-  MANAGER = 'manager'
+  USER = 'ROLE_USER',
+  ADMIN = 'ROLE_ADMIN',
+  MANAGER = 'ROLE_MANAGER'
 }
 
 @Entity()
-@Check(`"role" in ('user', 'admin', 'manager')`)
 export class User {
   @PrimaryGeneratedColumn()
   id: number;
@@ -28,7 +26,7 @@ export class User {
   @Column({ length: 100, nullable: false })
   name: string;
 
-  @Column({ type: 'enum', enum: Role, default: Role.USER, nullable: false })
+  @Column({ default: Role.USER, nullable: false })
   role: Role;
 
   @Column()
