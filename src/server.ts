@@ -4,6 +4,7 @@ import bodyParser from 'koa-bodyparser';
 import cors from '@koa/cors';
 import logger from 'koa-logger';
 import { initializeAppDataSource } from './data-source';
+import authRouter from './routes/auth.routes';
 
 initializeAppDataSource(() => {
   const app = new Koa();
@@ -14,6 +15,7 @@ initializeAppDataSource(() => {
     .use(bodyParser())
     .use(cors())
     .use(logger())
+    .use(authRouter.routes())
     .listen(PORT, async () => {
       console.log(`🚀 Server listening on port: ${PORT} 🚀`);
     })

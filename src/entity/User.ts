@@ -1,10 +1,6 @@
-import {
-  Entity,
-  PrimaryGeneratedColumn,
-  Column,
-  CreateDateColumn,
-  UpdateDateColumn
-} from 'typeorm';
+import { Entity, Column, BeforeInsert } from 'typeorm';
+import bcrypt from 'bcrypt';
+import Model from './Model';
 
 export enum Role {
   USER = 'ROLE_USER',
@@ -13,11 +9,8 @@ export enum Role {
 }
 
 @Entity()
-export class User {
-  @PrimaryGeneratedColumn()
-  id: number;
-
-  @Column({ nullable: false })
+export class User extends Model {
+  @Column({ nullable: false, unique: true })
   email: string;
 
   @Column({ nullable: false })
@@ -29,20 +22,18 @@ export class User {
   @Column({ default: Role.USER, nullable: false })
   role: Role;
 
-  @Column()
+  @Column({ nullable: true })
   description: string;
 
-  @CreateDateColumn({
-    type: 'timestamp',
-    default: () => 'CURRENT_TIMESTAMP(6)',
-    nullable: false
-  })
-  created_at: Date;
+  @BeforeInsert()
+  async hashPassword() {
+    this.password = await bcrypt.hash(this.password, 10);
+  }
 
-  @UpdateDateColumn({
-    type: 'timestamp',
-    default: () => 'CURRENT_TIMESTAMP(6)',
-    onUpdate: 'CURRENT_TIMESTAMP(6)'
-  })
-  updated_at: Date;
+  static async comparePasswords(
+    candidatePassword: string,
+    hashedPassword: string
+  ) {
+    return await bcrypt.compare(candidatePassword, hashedPassword);
+  }
 }
