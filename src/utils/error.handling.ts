@@ -1,8 +1,10 @@
+import Koa from 'koa';
+
 type ErrorWithMessage = {
   message: string;
 };
 
-type GenericError<T extends string> = Record<T, any>;
+type ErrorWithProperty<T extends string> = Record<T, any>;
 
 function isErrorAnObject(error: unknown): error is Record<any, any> {
   return typeof error === 'object' && error !== null;
@@ -11,7 +13,7 @@ function isErrorAnObject(error: unknown): error is Record<any, any> {
 export function isErrorWithProperty<T extends string>(
   error: unknown,
   property: T
-): error is GenericError<T> {
+): error is ErrorWithProperty<T> {
   return (
     isErrorAnObject(error) &&
     property in error &&
@@ -19,17 +21,22 @@ export function isErrorWithProperty<T extends string>(
   );
 }
 
-function toErrorWithMessage(maybeError: unknown): ErrorWithMessage {
+export function getErrorMessage(maybeError: unknown) {
   if (isErrorWithProperty<string>(maybeError, 'message'))
-    return maybeError as ErrorWithMessage;
+    return maybeError.message as ErrorWithMessage;
 
   try {
-    return new Error(JSON.stringify(maybeError));
+    return new Error(JSON.stringify(maybeError)).message;
   } catch {
-    return new Error(String(maybeError));
+    return new Error(String(maybeError)).message;
   }
 }
 
-export function getErrorMessage(error: unknown) {
-  return toErrorWithMessage(error).message;
-}
+export const checkSqlViolations = (ctx: Koa.Context, error: unknown) => {
+  if (isErrorWithProperty(error, 'code') && error.code === '23505') {
+    ctx.status = 409;
+  } else {
+    ctx.status = 500;
+  }
+  ctx.body = { error: getErrorMessage(error) };
+};

@@ -23,7 +23,7 @@ export const signTokens = (user: User) => {
   const accessToken = signJwt(
     { sub: user.id, role: user.role },
     {
-      expiresIn: `${config.accessTokenExpiresIn || 10}m`
+      expiresIn: `${config.accessTokenExpiresIn}m`
     }
   );
   return { accessToken };

@@ -10,5 +10,5 @@ export default {
   dbPassword: process.env.DB_PASSWORD,
   dbDatabase: process.env.DB_DATABASE,
   jwtSecretKey: process.env.JWT_SECRET_KEY,
-  accessTokenExpiresIn: process.env.ACCESS_TOKEN_EXPIRES_IN
+  accessTokenExpiresIn: process.env.ACCESS_TOKEN_EXPIRES_IN || 10
 };
