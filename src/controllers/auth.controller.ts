@@ -3,7 +3,7 @@ import config from '../config';
 import { User, Role } from '../entity/User';
 import { createUserInput, loginUserInput } from '../schemas/user.schema';
 import { signTokens, createUser, findUser } from '../services/user.service';
-import { getErrorMessage, checkSqlViolations } from '../utils/error.handling';
+import { checkSqlViolations } from '../utils/error.handling';
 
 const cookiesOptions = {
   httpOnly: true,
@@ -12,38 +12,29 @@ const cookiesOptions = {
 };
 
 export const loginUserHandler = async (ctx: Koa.Context): Promise<void> => {
-  try {
-    const { username, password }: loginUserInput = ctx.request.body;
-
-    if (!username || !password) {
-      ctx.status = 401;
-      ctx.body = { error: 'Username or password was not provided' };
-      return;
-    }
-    const user = await findUser({ email: username });
-    if (!user) {
-      ctx.status = 404;
-      ctx.body = { error: 'User not found' };
-      return;
-    }
-    const isPasswordValid = await User.comparePasswords(
-      password,
-      user.password
-    );
-    if (!isPasswordValid) {
-      ctx.status = 401;
-      ctx.body = { error: 'Invalid password' };
-      return;
-    }
-    const { accessToken } = signTokens(user);
-
-    ctx.cookies.set('access_token', accessToken, cookiesOptions);
-    ctx.status = 201;
-    ctx.body = { token: accessToken };
-  } catch (error) {
-    ctx.status = 500;
-    ctx.body = { error: getErrorMessage(error) };
+  const { username, password }: loginUserInput = ctx.request.body;
+  if (!username || !password) {
+    ctx.status = 401;
+    ctx.body = { error: 'Username or password was not provided' };
+    return;
   }
+  const user = await findUser({ email: username });
+  if (!user) {
+    ctx.status = 404;
+    ctx.body = { error: 'User not found' };
+    return;
+  }
+  const isPasswordValid = await User.comparePasswords(password, user.password);
+  if (!isPasswordValid) {
+    ctx.status = 401;
+    ctx.body = { error: 'Invalid password' };
+    return;
+  }
+  const { accessToken } = signTokens(user);
+
+  ctx.cookies.set('access_token', accessToken, cookiesOptions);
+  ctx.status = 201;
+  ctx.body = { token: accessToken };
 };
 
 export const registerUserHandler = async (ctx: Koa.Context) => {
@@ -64,14 +55,5 @@ export const registerUserHandler = async (ctx: Koa.Context) => {
     ctx.body = { user };
   } catch (error) {
     checkSqlViolations(ctx, error);
-  }
-};
-
-export const createUserHandler = async (ctx: Koa.Context) => {
-  try {
-    await registerUserHandler(ctx);
-  } catch (error) {
-    ctx.status = 500;
-    ctx.body = { error: getErrorMessage(error) };
   }
 };

@@ -1,7 +1,7 @@
 import Koa from 'koa';
 import { AnyZodObject, ZodError } from 'zod';
 import { Role } from '../entity/User';
-import { getErrorMessage } from '../utils/error.handling';
+import { getErrorMessage, isErrorWithProperty } from '../utils/error.handling';
 import { verifyJwt, JwtPayload } from '../utils/jwt';
 
 export const validate =
@@ -18,8 +18,9 @@ export const validate =
         ctx.body = {
           error: error.errors
         };
+      } else {
+        throw error;
       }
-      await next();
     }
   };
 
@@ -38,7 +39,14 @@ export const validateUserRole =
         };
       }
     } catch (error) {
-      ctx.status = 401;
-      ctx.body = { error: getErrorMessage(error) };
+      if (
+        isErrorWithProperty(error, 'message') &&
+        error.message === 'Jwt token is invalid or expired'
+      ) {
+        ctx.status = 401;
+        ctx.body = { error: getErrorMessage(error) };
+      } else {
+        throw error;
+      }
     }
   };

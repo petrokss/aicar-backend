@@ -28,16 +28,24 @@ export function getErrorMessage(maybeError: unknown) {
   try {
     return new Error(JSON.stringify(maybeError)).message;
   } catch {
-    console.error('Error in Error Handling:', maybeError);
-    return new Error('Something went wrong').message;
+    return new Error(String(maybeError)).message;
   }
 }
 
 export const checkSqlViolations = (ctx: Koa.Context, error: unknown) => {
   if (isErrorWithProperty(error, 'code') && error.code === '23505') {
     ctx.status = 409;
+    ctx.body = { error: 'The user already exists' };
   } else {
+    throw error;
+  }
+};
+
+export const catchUnhandledError = async (ctx: Koa.Context, next: Koa.Next) => {
+  try {
+    await next();
+  } catch (error) {
+    console.error('Error in global Error Handler:', error);
     ctx.status = 500;
   }
-  ctx.body = { error: getErrorMessage(error) };
 };
