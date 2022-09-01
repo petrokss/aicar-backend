@@ -33,7 +33,9 @@ export const validateUserRole =
         await next();
       } else {
         ctx.status = 403;
-        ctx.body = { error: 'Not enought permissions to create a new user' };
+        ctx.body = {
+          error: 'You do not have permissions to access this resource'
+        };
       }
     } catch (error) {
       ctx.status = 401;

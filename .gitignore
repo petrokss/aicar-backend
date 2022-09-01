@@ -11,6 +11,7 @@ temp/
 # Other files
 .env
 *.log
+.eslintcache
 
 # OS
 .DS_Store

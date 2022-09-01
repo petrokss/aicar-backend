@@ -28,7 +28,8 @@ export function getErrorMessage(maybeError: unknown) {
   try {
     return new Error(JSON.stringify(maybeError)).message;
   } catch {
-    return new Error(String(maybeError)).message;
+    console.error('Error in Error Handling:', maybeError);
+    return new Error('Something went wrong').message;
   }
 }
 

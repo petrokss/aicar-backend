@@ -7,10 +7,8 @@ import { getErrorMessage, checkSqlViolations } from '../utils/error.handling';
 
 const cookiesOptions = {
   httpOnly: true,
-  expires: new Date(
-    Date.now() + Number(config.accessTokenExpiresIn) * 60 * 1000
-  ),
-  maxAge: Number(config.accessTokenExpiresIn) * 60 * 1000
+  expires: new Date(Date.now() + config.accessTokenMaxAge),
+  maxAge: config.accessTokenMaxAge
 };
 
 export const loginUserHandler = async (ctx: Koa.Context): Promise<void> => {
