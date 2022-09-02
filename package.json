@@ -1,5 +1,5 @@
 {
-  "name": "aicar",
+  "name": "aicar-backend",
   "version": "1.0.0",
   "description": "",
   "main": "src/server.ts",
