@@ -1,9 +1,12 @@
+import Koa from 'koa';
 import jwt, { SignOptions } from 'jsonwebtoken';
 import { Role } from '../entity/User';
 
 export type JwtPayload = {
   sub?: number;
   role?: Role;
+  iat?: number;
+  exp?: number;
 };
 
 export const signJwt = (payload: JwtPayload, options?: SignOptions) => {
@@ -11,11 +14,7 @@ export const signJwt = (payload: JwtPayload, options?: SignOptions) => {
   return jwt.sign(payload, secretKey, { ...(options && options) });
 };
 
-export const verifyJwt = (token: string) => {
-  try {
-    const secretKey = process.env.JWT_SECRET_KEY || '';
-    return jwt.verify(token, secretKey);
-  } catch (error) {
-    throw new Error('Jwt token is invalid or expired');
-  }
+export const getTokenFromCookies = (ctx: Koa.Context) => {
+  const { token = '' } = ctx.cookie || {};
+  return token;
 };

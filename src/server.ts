@@ -2,6 +2,7 @@ import 'reflect-metadata';
 import Koa from 'koa';
 import bodyParser from 'koa-bodyparser';
 import cors from '@koa/cors';
+import cookie from 'koa-cookie';
 import logger from 'koa-logger';
 import { initializeAppDataSource } from './data-source';
 import authRouter from './routes/auth.routes';
@@ -14,7 +15,8 @@ initializeAppDataSource(() => {
 
   app
     .use(bodyParser())
-    .use(cors())
+    .use(cors({ credentials: true }))
+    .use(cookie())
     .use(logger())
     .use(catchUnhandledError)
     .use(authRouter.routes())

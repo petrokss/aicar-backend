@@ -11,6 +11,7 @@ specifiers:
   '@types/jsonwebtoken': ^8.5.8
   '@types/koa': ^2.13.5
   '@types/koa-bodyparser': ^4.3.7
+  '@types/koa-cookie': ^1.0.0
   '@types/koa-logger': ^3.1.2
   '@types/koa-router': ^7.4.4
   '@types/koa__cors': ^3.3.0
@@ -29,6 +30,7 @@ specifiers:
   jsonwebtoken: ^8.5.1
   koa: ^2.13.4
   koa-bodyparser: ^4.3.0
+  koa-cookie: ^1.0.0
   koa-logger: ^3.2.1
   lint-staged: ^13.0.3
   nodemon: ^2.0.19
@@ -50,6 +52,7 @@ dependencies:
   jsonwebtoken: 8.5.1
   koa: 2.13.4
   koa-bodyparser: 4.3.0
+  koa-cookie: 1.0.0
   koa-logger: 3.2.1
   lint-staged: 13.0.3
   pg: 8.7.3
@@ -67,6 +70,7 @@ devDependencies:
   '@types/jsonwebtoken': 8.5.8
   '@types/koa': 2.13.5
   '@types/koa-bodyparser': 4.3.7
+  '@types/koa-cookie': 1.0.0
   '@types/koa-logger': 3.1.2
   '@types/koa-router': 7.4.4
   '@types/koa__cors': 3.3.0
@@ -1827,6 +1831,12 @@ packages:
     resolution: {integrity: sha512-B8nG/OoE1ORZqCkBVsup/AKcvjdgoHnfi4pZMn5UwAPCbhk/96xyv284eBYW8JlQbQ7zDmnpFr68I/40mFoIBQ==}
     dependencies:
       '@types/koa': 2.13.5
+
+  /@types/koa-cookie/1.0.0:
+    resolution: {integrity: sha512-0YTUgGqXlyVV2zYkDaDr5KNOXLki3ZqHP3adtlcz8+Fh94vzLfv8mnlxzDpfHuj//bIkwsh2zHVzdNrurUIKvA==}
+    dependencies:
+      '@types/koa': 2.13.5
+    dev: true
 
   /@types/koa-logger/3.1.2:
     resolution: {integrity: sha512-sioTA1xlKYiIgryANWPRHBkG3XGbWftw9slWADUPC+qvPIY/yRLSrhvX7zkJwMrntub5dPO0GuAoyGGf0yitfQ==}
@@ -4061,6 +4071,10 @@ packages:
     dependencies:
       co: 4.6.0
       koa-compose: 4.1.0
+    dev: false
+
+  /koa-cookie/1.0.0:
+    resolution: {integrity: sha512-MCAek9ttjFFUHx1oUDxPdzTgfllOR1o/7S1OEHdmyBoZ6Kt8V1+J4JWq0RCjxD2JDhKHWZGdoLqBTRWaYOoF6Q==}
     dev: false
 
   /koa-logger/3.2.1:

@@ -9,8 +9,8 @@ export default {
   dbUsername: process.env.DB_USERNAME,
   dbPassword: process.env.DB_PASSWORD,
   dbDatabase: process.env.DB_DATABASE,
-  jwtSecretKey: process.env.JWT_SECRET_KEY,
-  accessTokenExpiresIn: process.env.ACCESS_TOKEN_EXPIRES_IN || 10,
+  jwtSecretKey: process.env.JWT_SECRET_KEY || 'jwt-secret',
+  accessTokenExpiresIn: process.env.ACCESS_TOKEN_EXPIRES_IN || 60,
   accessTokenMaxAge:
-    Number(process.env.ACCESS_TOKEN_EXPIRES_IN || 10) * 60 * 1000
+    Number(process.env.ACCESS_TOKEN_EXPIRES_IN || 60) * 60 * 1000
 };

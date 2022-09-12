@@ -4,7 +4,7 @@ import {
   registerUserHandler
 } from '../controllers/auth.controller';
 import { Role } from '../entity/User';
-import { validate, validateUserRole } from '../middlewares/validate';
+import { validate, validateUserRole, checkToken } from '../middlewares';
 import { createUserSchema, loginUserSchema } from '../schemas/user.schema';
 
 const router = new Router();
@@ -18,8 +18,9 @@ router.post('/api/register', validate(createUserSchema), registerUserHandler);
 
 router.post(
   '/api/user',
-  validate(createUserSchema),
+  checkToken,
   validateUserRole(Role.ADMIN),
+  validate(createUserSchema),
   registerUserHandler
 );
 
