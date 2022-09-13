@@ -1,13 +1,12 @@
 import Koa from 'koa';
-import jwt from 'jsonwebtoken';
-import { getTokenFromCookies } from '../utils/jwt';
-import config from '../config';
+import { getTokenFromCookies, verifyJwt } from '../utils/jwt';
+import type { DecodedToken } from '../types/jwt';
 
 export const checkToken = async (ctx: Koa.Context, next: Koa.Next) => {
   try {
     const token = getTokenFromCookies(ctx);
-    const decodedToken = jwt.verify(token, config.jwtSecretKey);
-    ctx.state.userToken = decodedToken;
+    const decodedToken: DecodedToken = verifyJwt(token);
+    ctx.state.user = decodedToken;
     await next();
   } catch (error) {
     ctx.status = 401;

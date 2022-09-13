@@ -1,7 +1,7 @@
 import Koa from 'koa';
 import { AnyZodObject, ZodError } from 'zod';
 import { Role } from '../entity/User';
-import { JwtPayload } from '../utils/jwt';
+import type { CustomJwtPayload } from '../types/jwt';
 
 export const validate =
   (schema: AnyZodObject) => async (ctx: Koa.Context, next: Koa.Next) => {
@@ -26,8 +26,8 @@ export const validate =
 // must be called after `checkToken` middleware
 export const validateUserRole =
   (role: Role) => async (ctx: Koa.Context, next: Koa.Next) => {
-    const { userToken }: { userToken: JwtPayload } = ctx.state;
-    if (userToken && userToken.role === role) {
+    const { user }: { user: CustomJwtPayload } = ctx.state;
+    if (user && user.role === role) {
       await next();
     } else {
       ctx.status = 403;

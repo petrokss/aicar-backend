@@ -21,7 +21,7 @@ export const findUserById = async (userId: number) => {
 
 export const signTokens = (user: User) => {
   const accessToken = signJwt(
-    { sub: user.id, role: user.role },
+    { sub: user.id.toString(), role: user.role },
     {
       expiresIn: `${config.accessTokenExpiresIn}m`
     }
