@@ -4,7 +4,12 @@ import {
   registerUserHandler
 } from '../controllers/auth.controller';
 import { Role } from '../entity/User';
-import { validate, validateUserRole, checkToken } from '../middlewares';
+import {
+  validate,
+  validateUserRole,
+  checkIfTokenAbsent,
+  checkIfTokenPresent
+} from '../middlewares';
 import { createUserSchema, loginUserSchema } from '../schemas/user.schema';
 
 const router = new Router();
@@ -13,12 +18,22 @@ router.get(
   '/api/test',
   (ctx) => (ctx.body = { message: 'Connected to server successfully' })
 );
-router.post('/api/login', validate(loginUserSchema), loginUserHandler);
-router.post('/api/register', validate(createUserSchema), registerUserHandler);
+router.post(
+  '/api/login',
+  checkIfTokenAbsent,
+  validate(loginUserSchema),
+  loginUserHandler
+);
+router.post(
+  '/api/register',
+  checkIfTokenAbsent,
+  validate(createUserSchema),
+  registerUserHandler
+);
 
 router.post(
   '/api/user',
-  checkToken,
+  checkIfTokenPresent,
   validateUserRole(Role.ADMIN),
   validate(createUserSchema),
   registerUserHandler
