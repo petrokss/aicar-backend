@@ -24,7 +24,7 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-`AICar` is an application for detecting a free parking parking space on a parking lot using the AI detection module. This repository is a central module of the backend service.
+`AICar` is an application for detecting a free parking space on a parking lot using the AI detection module. This repository is a central module of the backend service.
 
 
 ### Built With
