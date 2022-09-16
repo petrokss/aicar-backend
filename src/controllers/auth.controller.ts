@@ -32,9 +32,8 @@ export const loginUserHandler = async (ctx: Koa.Context): Promise<void> => {
   }
   const { accessToken } = signTokens(user);
 
-  ctx.cookies.set('access_token', accessToken, cookiesOptions);
+  ctx.cookies.set('token', accessToken, cookiesOptions);
   ctx.status = 201;
-  ctx.body = { token: accessToken };
 };
 
 export const registerUserHandler = async (ctx: Koa.Context) => {

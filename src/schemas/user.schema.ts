@@ -22,8 +22,8 @@ export const createUserSchema = object({
 export const loginUserSchema = object({
   body: object({
     username: string({
-      required_error: 'Email address is required'
-    }).email('Invalid email address'),
+      required_error: 'Username is required'
+    }).email('Invalid username'),
     password: string({
       required_error: 'Password is required'
     })
