@@ -10,16 +10,16 @@ export enum Role {
 
 @Entity()
 export class User extends Model {
-  @Column({ nullable: false, unique: true })
+  @Column({ unique: true })
   email: string;
 
-  @Column({ nullable: false })
+  @Column()
   password: string;
 
-  @Column({ length: 100, nullable: false })
+  @Column({ length: 100 })
   name: string;
 
-  @Column({ default: Role.USER, nullable: false })
+  @Column({ default: Role.USER })
   role: Role;
 
   @Column({ nullable: true })

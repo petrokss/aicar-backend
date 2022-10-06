@@ -3,6 +3,12 @@ import { DataSource } from 'typeorm';
 import config from './config';
 
 import { User } from './entity/User';
+import { Camera } from './entity/Camera';
+import { Parking } from './entity/Parking';
+import { ParkingSector } from './entity/ParkingSector';
+import { ParkingPlace } from './entity/ParkingPlace';
+import { AdditionalModule } from './entity/AdditionalModule';
+import { RecognitionSettings } from './entity/RecognitionSettings';
 
 export const AppDataSource = new DataSource({
   type: 'postgres',
@@ -13,7 +19,15 @@ export const AppDataSource = new DataSource({
   database: config.dbDatabase,
   synchronize: true,
   logging: false,
-  entities: [User],
+  entities: [
+    User,
+    Camera,
+    Parking,
+    ParkingSector,
+    ParkingPlace,
+    AdditionalModule,
+    RecognitionSettings
+  ],
   migrations: [`${__dirname}/migration/*.ts`],
   subscribers: []
 });
