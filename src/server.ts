@@ -6,6 +6,7 @@ import cookie from 'koa-cookie';
 import logger from 'koa-logger';
 import { initializeAppDataSource } from './data-source';
 import authRouter from './routes/auth.routes';
+import adminRouter from './routes/admin.routes';
 import { catchUnhandledError } from './utils/error.handling';
 
 initializeAppDataSource(() => {
@@ -20,6 +21,7 @@ initializeAppDataSource(() => {
     .use(logger())
     .use(catchUnhandledError)
     .use(authRouter.routes())
+    .use(adminRouter.routes())
     .listen(PORT, async () => {
       console.log(`🚀 Server listening on port: ${PORT} 🚀`);
     })
